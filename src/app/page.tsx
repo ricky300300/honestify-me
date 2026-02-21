@@ -4,51 +4,71 @@ import RedirectIfLoggedIn from "./RedirectIfLoggedIn";
 export default function Home() {
   return (
     <RedirectIfLoggedIn>
-    <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col items-center justify-center px-4 py-8 sm:py-12">
-        <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6 text-center">
-          <h1 className="text-2xl font-semibold leading-tight tracking-tight">
-            Get honest, professional feedback — safely.
-          </h1>
+      <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+        <main className="mx-auto w-full max-w-2xl px-4 py-16">
+          {/* Hero */}
+          <section className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
+              Get honest feedback, privately.
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+              Create a personal feedback page. Share the link with others and
+              receive anonymous, thoughtful responses — no signup required to
+              send.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
+              <Link
+                href="/signup"
+                className="flex min-h-[48px] w-full items-center justify-center rounded-xl bg-gray-900 px-6 py-3 text-base font-medium text-white transition-opacity hover:opacity-90 active:opacity-95 dark:bg-white dark:text-gray-900 sm:w-auto"
+              >
+                Create Your Feedback Page
+              </Link>
+              <Link
+                href="/login"
+                className="flex min-h-[48px] w-full items-center justify-center rounded-xl border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-900 transition-opacity hover:bg-gray-50 active:opacity-95 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800 sm:w-auto"
+              >
+                Login
+              </Link>
+            </div>
+          </section>
 
-          <ul className="mt-8 flex w-full list-none flex-col gap-3 text-left">
-            <li className="flex items-start gap-3">
-              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-foreground" aria-hidden />
-              <span className="text-sm text-foreground/90">
-                Share work anonymously so reviewers focus on the work, not who made it.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-foreground" aria-hidden />
-              <span className="text-sm text-foreground/90">
-                Get structured, actionable feedback you can use to improve.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-foreground" aria-hidden />
-              <span className="text-sm text-foreground/90">
-                Control who sees what — your privacy and safety come first.
-              </span>
-            </li>
-          </ul>
+          {/* Divider */}
+          <hr className="mx-auto mt-16 w-12 border-gray-300 dark:border-gray-700" />
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Link
-              href="/signup"
-              className="flex min-h-[48px] flex-1 items-center justify-center rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95"
-            >
-              Sign up
-            </Link>
-            <Link
-              href="/login"
-              className="flex min-h-[48px] flex-1 items-center justify-center rounded-2xl border border-foreground/30 text-base font-medium transition-opacity hover:bg-foreground/10 active:opacity-95"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-      </main>
-    </div>
+          {/* Benefits */}
+          <section className="mt-16">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Anonymous
+                </p>
+                <p className="mt-1 text-gray-900 dark:text-gray-100">
+                  Senders stay anonymous so feedback focuses on the work, not
+                  the person.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  One link
+                </p>
+                <p className="mt-1 text-gray-900 dark:text-gray-100">
+                  Share a single link. Anyone can submit feedback without
+                  creating an account.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  You control it
+                </p>
+                <p className="mt-1 text-gray-900 dark:text-gray-100">
+                  AI helps prevent abusive or harmful messages so feedback stays
+                  professional and useful.
+                </p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
     </RedirectIfLoggedIn>
   );
 }

@@ -9,12 +9,11 @@ export default function Home() {
           {/* Hero */}
           <section className="text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
-              Get honest feedback, privately.
+              Honest feedback. Constructively delivered.
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-              Create a personal feedback page. Share the link with others and
-              receive anonymous, thoughtful responses — no signup required to
-              send.
+              Create a private feedback page. Receive anonymous responses —
+              filtered to prevent abusive or harmful messages..
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
               <Link
@@ -58,7 +57,7 @@ export default function Home() {
               </div>
               <div className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  You control it
+                  AI Moderated
                 </p>
                 <p className="mt-1 text-gray-900 dark:text-gray-100">
                   AI helps prevent abusive or harmful messages so feedback stays

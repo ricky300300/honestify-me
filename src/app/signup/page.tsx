@@ -48,10 +48,10 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto flex min-h-screen max-w-[400px] flex-col justify-center px-4 py-8">
+      <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col justify-center px-4 py-6 sm:py-8">
         <Link
           href="/"
-          className="mb-6 text-sm text-foreground/70 underline hover:text-foreground"
+          className="mb-6 inline-flex min-h-[44px] items-center text-sm text-foreground/70 underline hover:text-foreground"
         >
           ← Back
         </Link>
@@ -68,7 +68,7 @@ export default function SignupPage() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 autoComplete="name"
-                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="John Doe — or leave blank to use username"
               />
             </label>
@@ -80,7 +80,7 @@ export default function SignupPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="you@example.com"
               />
             </label>
@@ -92,7 +92,7 @@ export default function SignupPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username"
-                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="johndoe"
               />
             </label>
@@ -105,7 +105,7 @@ export default function SignupPage() {
                 required
                 autoComplete="new-password"
                 minLength={8}
-                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="At least 8 characters"
               />
             </label>
@@ -125,7 +125,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-2 h-12 w-full rounded-2xl bg-foreground font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
+              className="mt-2 min-h-[48px] w-full rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
             >
               {submitting ? "Creating account…" : "Sign up"}
             </button>
@@ -133,7 +133,7 @@ export default function SignupPage() {
 
           <p className="mt-4 text-center text-sm text-foreground/70">
             Already have an account?{" "}
-            <Link href="/login" className="underline hover:text-foreground">
+            <Link href="/login" className="inline-flex min-h-[44px] items-center justify-center underline hover:text-foreground">
               Sign in
             </Link>
           </p>

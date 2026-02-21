@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <RedirectIfLoggedIn>
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto flex min-h-screen max-w-[400px] flex-col items-center justify-center px-4 py-12">
+      <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col items-center justify-center px-4 py-8 sm:py-12">
         <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6 text-center">
           <h1 className="text-2xl font-semibold leading-tight tracking-tight">
             Get honest, professional feedback — safely.
@@ -35,13 +35,13 @@ export default function Home() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Link
               href="/signup"
-              className="flex h-12 flex-1 items-center justify-center rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95"
+              className="flex min-h-[48px] flex-1 items-center justify-center rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95"
             >
               Sign up
             </Link>
             <Link
               href="/login"
-              className="flex h-12 flex-1 items-center justify-center rounded-2xl border border-foreground/30 text-base font-medium transition-opacity hover:bg-foreground/10 active:opacity-95"
+              className="flex min-h-[48px] flex-1 items-center justify-center rounded-2xl border border-foreground/30 text-base font-medium transition-opacity hover:bg-foreground/10 active:opacity-95"
             >
               Login
             </Link>

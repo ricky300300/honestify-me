@@ -53,7 +53,7 @@ export default function FeedbackForm({ username }: Props) {
           <br />
           <Link
             href="/signup"
-            className="font-medium underline underline-offset-2 hover:no-underline"
+            className="inline-flex min-h-[44px] items-center font-medium underline underline-offset-2 hover:no-underline"
           >
             Create your own private feedback page.
           </Link>
@@ -71,7 +71,7 @@ export default function FeedbackForm({ username }: Props) {
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={5}
-          className="min-h-[120px] resize-y rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+          className="min-h-[120px] resize-y rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
           placeholder="Write your anonymous feedback here…"
         />
       </label>
@@ -81,7 +81,7 @@ export default function FeedbackForm({ username }: Props) {
           type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+          className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
           placeholder="e.g. Design, Content"
         />
       </label>
@@ -95,7 +95,7 @@ export default function FeedbackForm({ username }: Props) {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-2 h-12 w-full rounded-2xl bg-foreground font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
+        className="mt-2 min-h-[48px] w-full rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
       >
         {submitting ? "Sending…" : "Send feedback"}
       </button>

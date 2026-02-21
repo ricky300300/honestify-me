@@ -64,19 +64,19 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto max-w-[400px] px-4 py-8">
+      <main className="mx-auto w-full max-w-[400px] px-4 py-6 sm:py-8">
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
 
         {!loading && !error && username && (
           <div className="mt-6 rounded-xl border border-foreground/10 bg-background p-4">
             <p className="text-xs font-medium text-foreground/70">Share your feedback link</p>
-            <p className="mt-1.5 truncate text-sm text-foreground/90" title={shareUrl}>
+            <p className="mt-1.5 break-all text-sm text-foreground/90" title={shareUrl}>
               {shareUrl}
             </p>
             <button
               type="button"
               onClick={handleCopy}
-              className="mt-3 rounded-lg border border-foreground/30 px-3 py-1.5 text-xs font-medium hover:bg-foreground/10"
+              className="mt-3 min-h-[44px] min-w-[44px] rounded-xl border border-foreground/30 px-4 py-2.5 text-sm font-medium hover:bg-foreground/10 active:opacity-90"
             >
               {copied ? "Copied!" : "Copy link"}
             </button>

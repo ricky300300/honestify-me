@@ -69,10 +69,10 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto max-w-[400px] px-4 py-8">
+      <main className="mx-auto w-full max-w-[400px] px-4 py-6 sm:py-8">
         <Link
           href="/dashboard"
-          className="mb-6 inline-block text-sm text-foreground/70 underline hover:text-foreground"
+          className="mb-6 inline-flex min-h-[44px] items-center text-sm text-foreground/70 underline hover:text-foreground"
         >
           ← Dashboard
         </Link>
@@ -108,12 +108,12 @@ export default function AdminDashboardPage() {
                     {item.category && (
                       <p className="mt-1 text-xs text-foreground/60">{item.category}</p>
                     )}
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3 flex flex-wrap gap-2">
                       <button
                         type="button"
                         onClick={() => handleModerate(item.id, "APPROVED")}
                         disabled={actingId === item.id}
-                        className="rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background disabled:opacity-60"
+                        className="min-h-[44px] min-w-[44px] rounded-xl bg-foreground px-4 py-2.5 text-sm font-medium text-background disabled:opacity-60 active:opacity-90"
                       >
                         Approve
                       </button>
@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
                         type="button"
                         onClick={() => handleModerate(item.id, "REJECTED")}
                         disabled={actingId === item.id}
-                        className="rounded-lg border border-foreground/30 px-3 py-1.5 text-xs font-medium disabled:opacity-60"
+                        className="min-h-[44px] min-w-[44px] rounded-xl border border-foreground/30 px-4 py-2.5 text-sm font-medium disabled:opacity-60 active:opacity-90"
                       >
                         Reject
                       </button>

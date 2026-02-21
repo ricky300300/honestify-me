@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TOKEN_COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
 
@@ -12,6 +12,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) router.replace("/dashboard");
+  }, [router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,7 +36,7 @@ export default function LoginPage() {
       const token = data.token;
       if (token) {
         localStorage.setItem("token", token);
-        document.cookie = `token=${token}; path=/; max-age=${TOKEN_COOKIE_MAX_AGE}; samesite=strict`;
+        document.cookie = `token=${token}; path=/; max-age=${TOKEN_COOKIE_MAX_AGE}; samesite=lax`;
       }
       router.push("/dashboard");
     } catch {

@@ -1,7 +1,9 @@
 import Link from "next/link";
+import RedirectIfLoggedIn from "./RedirectIfLoggedIn";
 
 export default function Home() {
   return (
+    <RedirectIfLoggedIn>
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto flex min-h-screen max-w-[400px] flex-col items-center justify-center px-4 py-12">
         <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6 text-center">
@@ -39,5 +41,6 @@ export default function Home() {
         </div>
       </main>
     </div>
+    </RedirectIfLoggedIn>
   );
 }

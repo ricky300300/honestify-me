@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 type Props = { username: string };
@@ -43,6 +44,24 @@ export default function FeedbackForm({ username }: Props) {
     }
   }
 
+  if (status === "success") {
+    return (
+      <div className="mt-6 flex flex-col gap-2 rounded-xl bg-green-500/15 px-3 py-3 text-sm text-green-700 dark:text-green-400">
+        <p>Thanks! Your feedback was sent.</p>
+        <p>
+          Want honest feedback too?
+          <br />
+          <Link
+            href="/signup"
+            className="font-medium underline underline-offset-2 hover:no-underline"
+          >
+            Create your own private feedback page.
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
       <label className="flex flex-col gap-1.5">
@@ -67,11 +86,6 @@ export default function FeedbackForm({ username }: Props) {
         />
       </label>
 
-      {status === "success" && (
-        <p className="rounded-xl bg-green-500/15 px-3 py-2 text-sm text-green-700 dark:text-green-400">
-          Thanks! Your feedback was sent.
-        </p>
-      )}
       {status === "error" && (
         <p className="rounded-xl bg-red-500/15 px-3 py-2 text-sm text-red-700 dark:text-red-400">
           {errorText}

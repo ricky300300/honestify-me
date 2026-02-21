@@ -117,6 +117,13 @@ export default function SignupPage() {
               {submitting ? "Creating account…" : "Sign up"}
             </button>
           </form>
+
+          <p className="mt-4 text-center text-sm text-foreground/70">
+            Already have an account?{" "}
+            <Link href="/login" className="underline hover:text-foreground">
+              Sign in
+            </Link>
+          </p>
         </div>
       </main>
     </div>

@@ -32,12 +32,20 @@ export default function Home() {
             </li>
           </ul>
 
-          <Link
-            href="/signup"
-            className="mt-8 flex h-12 w-full items-center justify-center rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95"
-          >
-            Get started
-          </Link>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <Link
+              href="/signup"
+              className="flex h-12 flex-1 items-center justify-center rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95"
+            >
+              Sign up
+            </Link>
+            <Link
+              href="/login"
+              className="flex h-12 flex-1 items-center justify-center rounded-2xl border border-foreground/30 text-base font-medium transition-opacity hover:bg-foreground/10 active:opacity-95"
+            >
+              Login
+            </Link>
+          </div>
         </div>
       </main>
     </div>

@@ -23,12 +23,19 @@ export async function GET(request: Request) {
   }
 
   try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { username: true },
+    });
     const feedback = await prisma.feedback.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
       select: { id: true, message: true, category: true, status: true, createdAt: true },
     });
-    return NextResponse.json({ feedback });
+    return NextResponse.json({
+      username: user?.username ?? null,
+      feedback,
+    });
   } catch (err) {
     console.error("Dashboard API error:", err);
     return NextResponse.json(

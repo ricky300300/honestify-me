@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 type FeedbackItem = {
@@ -12,9 +11,11 @@ type FeedbackItem = {
 };
 
 export default function DashboardPage() {
+  const [username, setUsername] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const fetchFeedback = useCallback(async () => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -33,6 +34,7 @@ export default function DashboardPage() {
         return;
       }
       const data = await res.json().catch(() => ({}));
+      setUsername(data.username ?? null);
       const all = data.feedback ?? [];
       setFeedback(all.filter((f: FeedbackItem) => f.status === "APPROVED"));
       setError(null);
@@ -47,25 +49,39 @@ export default function DashboardPage() {
     fetchFeedback();
   }, [fetchFeedback]);
 
+  const shareUrl =
+    typeof window !== "undefined" && username
+      ? `${window.location.origin}/${username}`
+      : "";
+
+  function handleCopy() {
+    if (!shareUrl) return;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto max-w-[400px] px-4 py-8">
-        <Link
-          href="/"
-          className="mb-6 inline-block text-sm text-foreground/70 underline hover:text-foreground"
-        >
-          ← Back to home
-        </Link>
-
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="mt-1 text-sm text-foreground/70">Your approved feedback.</p>
 
-        <Link
-          href="/admin"
-          className="mt-4 inline-block text-sm text-foreground/70 underline hover:text-foreground"
-        >
-          Admin dashboard →
-        </Link>
+        {!loading && !error && username && (
+          <div className="mt-6 rounded-xl border border-foreground/10 bg-background p-4">
+            <p className="text-xs font-medium text-foreground/70">Share your feedback link</p>
+            <p className="mt-1.5 truncate text-sm text-foreground/90" title={shareUrl}>
+              {shareUrl}
+            </p>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="mt-3 rounded-lg border border-foreground/30 px-3 py-1.5 text-xs font-medium hover:bg-foreground/10"
+            >
+              {copied ? "Copied!" : "Copy link"}
+            </button>
+          </div>
+        )}
 
         {loading && (
           <p className="mt-6 text-sm text-foreground/70">Loading…</p>

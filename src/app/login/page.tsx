@@ -1,0 +1,115 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+const TOKEN_COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setMessage(null);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setMessage({ type: "error", text: data.error ?? "Login failed. Please try again." });
+        return;
+      }
+      const token = data.token;
+      if (token) {
+        localStorage.setItem("token", token);
+        document.cookie = `token=${token}; path=/; max-age=${TOKEN_COOKIE_MAX_AGE}; samesite=strict`;
+      }
+      router.push("/dashboard");
+    } catch {
+      setMessage({ type: "error", text: "Something went wrong. Please try again." });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <main className="mx-auto flex min-h-screen max-w-[400px] flex-col justify-center px-4 py-8">
+        <Link
+          href="/"
+          className="mb-6 text-sm text-foreground/70 underline hover:text-foreground"
+        >
+          ← Back
+        </Link>
+
+        <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6">
+          <h1 className="text-xl font-semibold tracking-tight">Sign in</h1>
+          <p className="mt-1 text-sm text-foreground/70">Enter your email and password.</p>
+
+          <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-foreground">Email</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                placeholder="you@example.com"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-foreground">Password</span>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                placeholder="••••••••"
+              />
+            </label>
+
+            {message && (
+              <p
+                className={`rounded-xl px-3 py-2 text-sm ${
+                  message.type === "error"
+                    ? "bg-red-500/15 text-red-700 dark:text-red-400"
+                    : "bg-green-500/15 text-green-700 dark:text-green-400"
+                }`}
+              >
+                {message.text}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="mt-2 h-12 w-full rounded-2xl bg-foreground font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
+            >
+              {submitting ? "Signing in…" : "Sign in"}
+            </button>
+          </form>
+
+          <p className="mt-4 text-center text-sm text-foreground/70">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="underline hover:text-foreground">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

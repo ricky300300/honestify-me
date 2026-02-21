@@ -55,12 +55,15 @@ export default async function FeedbackPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col justify-center px-4 py-6 sm:py-8">
-        <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6">
-          <h1 className="text-2xl font-semibold tracking-tight">
+      <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col justify-center px-4 py-8 sm:py-10">
+        <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6 sm:p-8">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             {user.fullName?.trim() || user.username}
           </h1>
           <p className="mt-1 text-sm text-foreground/70">Send anonymous feedback</p>
+          <p className="mt-1 text-xs text-foreground/50">
+            Messages are reviewed to prevent abusive or harmful content.
+          </p>
           <FeedbackForm username={user.username} />
         </div>
       </main>

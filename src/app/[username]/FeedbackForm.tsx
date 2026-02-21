@@ -63,42 +63,45 @@ export default function FeedbackForm({ username }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5">
-        <span className="text-sm font-medium text-foreground">Your feedback</span>
+    <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5 sm:mt-10">
+      <label className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-foreground/90">Your feedback</span>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={5}
-          className="min-h-[120px] resize-y rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
-          placeholder="Write your anonymous feedback here…"
+          className="min-h-[120px] resize-y rounded-xl border border-foreground/20 bg-transparent px-4 py-3.5 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+          placeholder="Share constructive feedback. What's working well? What could be improved?"
         />
       </label>
-      <label className="flex flex-col gap-1.5">
+      <label className="flex flex-col gap-2">
         <span className="text-sm font-medium text-foreground/80">Category (optional)</span>
         <input
           type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+          className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-4 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
           placeholder="e.g. Design, Content"
         />
       </label>
 
       {status === "error" && (
-        <p className="rounded-xl bg-red-500/15 px-3 py-2 text-sm text-red-700 dark:text-red-400">
+        <p className="rounded-xl bg-red-500/15 px-4 py-3 text-sm text-red-700 dark:text-red-400">
           {errorText}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="mt-2 min-h-[48px] w-full rounded-2xl bg-foreground text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
-      >
-        {submitting ? "Sending…" : "Send feedback"}
-      </button>
+      <div className="mt-1 flex flex-col gap-2">
+        <button
+          type="submit"
+          disabled={submitting}
+          className="min-h-[48px] w-full rounded-xl bg-foreground px-4 py-3 text-base font-medium text-background transition-opacity hover:opacity-90 active:opacity-95 disabled:opacity-60"
+        >
+          {submitting ? "Sending…" : "Send Constructive Feedback"}
+        </button>
+        <p className="text-center text-xs text-foreground/50">Your identity is not shared.</p>
+      </div>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password, username } = body;
+    const { email, password, username, fullName } = body;
 
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json(
@@ -28,10 +28,16 @@ export async function POST(request: Request) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
+    const trimmedFullName =
+      typeof fullName === "string" && fullName.trim().length > 0
+        ? fullName.trim()
+        : username.trim();
+
     await prisma.user.create({
       data: {
         email: email.trim().toLowerCase(),
         username: username.trim(),
+        fullName: trimmedFullName,
         passwordHash,
       },
     });

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function SignupPage() {
   const router = useRouter();
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -25,7 +26,7 @@ export default function SignupPage() {
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, username }),
+        body: JSON.stringify({ email, password, username, fullName }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -33,6 +34,7 @@ export default function SignupPage() {
         return;
       }
       setMessage({ type: "success", text: "Account created. Redirecting to sign in…" });
+      setFullName("");
       setEmail("");
       setPassword("");
       setUsername("");
@@ -59,6 +61,17 @@ export default function SignupPage() {
           <p className="mt-1 text-sm text-foreground/70">Enter your details below to sign up.</p>
 
           <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+            <label className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium text-foreground">Full name (optional)</span>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                autoComplete="name"
+                className="rounded-xl border border-foreground/20 bg-transparent px-3 py-2.5 text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                placeholder="John Doe — or leave blank to use username"
+              />
+            </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-foreground">Email</span>
               <input

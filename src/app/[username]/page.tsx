@@ -38,7 +38,9 @@ export default async function FeedbackPage({ params }: Props) {
           ← Back
         </Link>
         <div className="w-full rounded-2xl border border-foreground/10 bg-background p-6">
-          <h1 className="text-2xl font-semibold tracking-tight">{user.username}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            {user.fullName?.trim() || user.username}
+          </h1>
           <p className="mt-1 text-sm text-foreground/70">Send anonymous feedback</p>
           <FeedbackForm username={user.username} />
         </div>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
         ? fullName.trim()
         : username.trim();
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: email.trim().toLowerCase(),
         username: username.trim(),
@@ -42,7 +43,26 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ ok: true });
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error("JWT_SECRET is not set");
+      return NextResponse.json(
+        { error: "Server configuration error." },
+        { status: 500 }
+      );
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      secret,
+      { expiresIn: "30d" }
+    );
+
+    return NextResponse.json({
+      ok: true,
+      token,
+      username: user.username,
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     if (message.includes("Unique constraint") || message.includes("duplicate key")) {

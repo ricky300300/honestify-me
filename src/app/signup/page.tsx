@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const TOKEN_COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days in seconds
+
 export default function SignupPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
@@ -33,12 +35,20 @@ export default function SignupPage() {
         setMessage({ type: "error", text: data.error ?? "Signup failed. Please try again." });
         return;
       }
-      setMessage({ type: "success", text: "Account created. Redirecting to sign in…" });
-      setFullName("");
-      setEmail("");
-      setPassword("");
-      setUsername("");
-      setTimeout(() => router.push("/login"), 1000);
+      const token = data.token;
+      if (token) {
+        localStorage.setItem("token", token);
+        document.cookie = `token=${token}; path=/; max-age=${TOKEN_COOKIE_MAX_AGE}; samesite=lax`;
+        setMessage({ type: "success", text: "Account created. Taking you to your dashboard…" });
+        setFullName("");
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setTimeout(() => router.push("/dashboard"), 800);
+      } else {
+        setMessage({ type: "success", text: "Account created. Redirecting to sign in…" });
+        setTimeout(() => router.push("/login"), 1000);
+      }
     } catch {
       setMessage({ type: "error", text: "Something went wrong. Please try again." });
     } finally {
@@ -91,7 +101,7 @@ export default function SignupPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                autoComplete="username"
+                autoComplete="off"
                 className="min-h-[48px] rounded-xl border border-foreground/20 bg-transparent px-3 py-3 text-base text-foreground placeholder:text-foreground/50 focus:border-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="johndoe"
               />

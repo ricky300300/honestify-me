@@ -24,16 +24,22 @@ export async function GET(request: Request) {
 
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   if (!adminEmail) {
-    return NextResponse.json({ error: "Admin not configured." }, { status: 503 });
+    return NextResponse.json(
+      { error: "Admin not configured." },
+      { status: 503 },
+    );
   }
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user || user.email.toLowerCase() !== adminEmail) {
-    return NextResponse.json({ error: "Forbidden. Admin only." }, { status: 403 });
+    return NextResponse.json(
+      { error: "Forbidden. Admin only." },
+      { status: 403 },
+    );
   }
 
   try {
     const pending = await prisma.feedback.findMany({
-      where: { status: "PENDING" },
+      where: { status: "APPROVED" },
       orderBy: { createdAt: "asc" },
       select: {
         id: true,
@@ -58,7 +64,7 @@ export async function GET(request: Request) {
     console.error("Admin pending feedback error:", err);
     return NextResponse.json(
       { error: "Something went wrong." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

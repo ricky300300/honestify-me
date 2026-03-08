@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = { username: string };
 
 export default function FeedbackForm({ username }: Props) {
+  const router = useRouter();
   const [doWell, setDoWell] = useState("");
   const [improve, setImprove] = useState("");
   const [suggestion, setSuggestion] = useState("");
@@ -47,6 +49,7 @@ export default function FeedbackForm({ username }: Props) {
       setDoWell("");
       setImprove("");
       setSuggestion("");
+      router.refresh();
     } catch {
       setStatus("error");
       setErrorText("Something went wrong. Please try again.");

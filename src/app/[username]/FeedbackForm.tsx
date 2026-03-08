@@ -46,18 +46,18 @@ export default function FeedbackForm({ username }: Props) {
 
   if (status === "success") {
     return (
-      <div className="mt-6 flex flex-col gap-2 rounded-xl bg-green-500/15 px-3 py-3 text-sm text-green-700 dark:text-green-400">
-        <p>Thanks! Your feedback was sent.</p>
-        <p>
-          Want honest feedback too?
-          <br />
-          <Link
-            href="/signup"
-            className="inline-flex min-h-[44px] items-center font-medium underline underline-offset-2 hover:no-underline"
-          >
-            Create your own private feedback page.
-          </Link>
+      <div className="mt-8 flex flex-col space-y-4 rounded-xl bg-green-500/15 p-6 text-center text-sm text-green-700 dark:text-green-400 sm:mt-10">
+        <p className="font-semibold">Thanks! Your feedback was sent.</p>
+        <p>Curious what people honestly think about you?</p>
+        <p className="opacity-90">
+          Many people discover surprising things when they ask for anonymous feedback.
         </p>
+        <Link
+          href="/signup"
+          className="w-full rounded-xl bg-green-500 px-4 py-3 font-medium text-white transition-colors hover:bg-green-600 active:opacity-95 sm:w-auto sm:min-w-[200px]"
+        >
+          Create my feedback page
+        </Link>
       </div>
     );
   }

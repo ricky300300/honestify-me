@@ -35,6 +35,10 @@ export default async function FeedbackPage({ params }: Props) {
     where: { username },
   });
 
+  const feedbackCount = user
+    ? await prisma.feedback.count({ where: { userId: user.id } })
+    : 0;
+
   if (!user) {
     return (
       <div className="min-h-screen bg-background text-foreground">
@@ -64,6 +68,15 @@ export default async function FeedbackPage({ params }: Props) {
           <p className="mt-1 text-xs text-foreground/50">
             Messages are reviewed to prevent abusive or harmful content.
           </p>
+          {feedbackCount > 0 && (
+            <p className="mb-4 text-center">
+              <span className="inline-block rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                {feedbackCount === 1
+                  ? "1 person has shared feedback so far."
+                  : `${feedbackCount} people have shared feedback so far.`}
+              </span>
+            </p>
+          )}
           <FeedbackForm username={user.username} />
         </div>
       </main>

@@ -38,3 +38,9 @@ model Feedback {
   status    FeedbackStatus @default(PENDING)
   createdAt DateTime       @default(now())
 }
+
+model PageView {
+  id        String   @id @default(cuid())
+  username  String
+  createdAt DateTime @default(now())
+}

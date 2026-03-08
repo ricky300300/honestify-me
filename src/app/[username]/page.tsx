@@ -57,6 +57,10 @@ export default async function FeedbackPage({ params }: Props) {
     );
   }
 
+  await prisma.pageView.create({
+    data: { username: user.username },
+  });
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col justify-center px-4 py-8 sm:py-10">

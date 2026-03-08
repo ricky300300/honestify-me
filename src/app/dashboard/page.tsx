@@ -15,7 +15,11 @@ export default function DashboardPage() {
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedMessage, setCopiedMessage] = useState(false);
+
+  const shareMessage =
+    "I'm trying to improve how I work with others.\nI'd appreciate honest anonymous feedback.";
 
   const fetchFeedback = useCallback(async () => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -54,11 +58,20 @@ export default function DashboardPage() {
       ? `${window.location.origin}/${username}`
       : "";
 
-  function handleCopy() {
+  const fullShareText = shareUrl ? `${shareMessage}\n\n${shareUrl}` : shareMessage;
+
+  function handleCopyLink() {
     if (!shareUrl) return;
     navigator.clipboard.writeText(shareUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    });
+  }
+
+  function handleCopyMessage() {
+    navigator.clipboard.writeText(fullShareText).then(() => {
+      setCopiedMessage(true);
+      setTimeout(() => setCopiedMessage(false), 2000);
     });
   }
 
@@ -66,20 +79,37 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto w-full max-w-[400px] px-4 py-6 sm:py-8">
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        {!loading && !error && (
+          <p className="mt-1 text-sm text-foreground/60">
+            You have received {feedback.length} feedback {feedback.length === 1 ? "message" : "messages"}
+          </p>
+        )}
 
         {!loading && !error && username && (
           <div className="mt-6 rounded-xl border border-foreground/10 bg-background p-4">
             <p className="text-xs font-medium text-foreground/70">Share your feedback link</p>
-            <p className="mt-1.5 break-all text-sm text-foreground/90" title={shareUrl}>
+            <p className="mt-2 whitespace-pre-line text-sm text-foreground/90">
+              {shareMessage}
+            </p>
+            <p className="mt-2 break-all text-sm text-foreground/70" title={shareUrl}>
               {shareUrl}
             </p>
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="mt-3 min-h-[44px] min-w-[44px] rounded-xl border border-foreground/30 px-4 py-2.5 text-sm font-medium hover:bg-foreground/10 active:opacity-90"
-            >
-              {copied ? "Copied!" : "Copy link"}
-            </button>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleCopyMessage}
+                className="min-h-[44px] min-w-[44px] rounded-xl border border-foreground/30 px-4 py-2.5 text-sm font-medium hover:bg-foreground/10 active:opacity-90"
+              >
+                {copiedMessage ? "Copied!" : "Copy message"}
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="min-h-[44px] min-w-[44px] rounded-xl border border-foreground/30 px-4 py-2.5 text-sm font-medium hover:bg-foreground/10 active:opacity-90"
+              >
+                {copiedLink ? "Copied!" : "Copy link"}
+              </button>
+            </div>
           </div>
         )}
 
@@ -95,7 +125,12 @@ export default function DashboardPage() {
         {!loading && !error && (
           <section className="mt-8">
             {feedback.length === 0 ? (
-              <p className="text-sm text-foreground/60">No approved feedback yet.</p>
+              <div className="rounded-xl border border-foreground/10 bg-foreground/[0.02] p-6 text-center">
+                <p className="text-sm font-medium text-foreground/80">No feedback yet.</p>
+                <p className="mt-2 text-sm text-foreground/50">
+                  Share your link with 3 trusted people to start receiving honest feedback.
+                </p>
+              </div>
             ) : (
               <ul className="space-y-3">
                 {feedback.map((item) => (

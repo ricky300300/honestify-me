@@ -40,7 +40,7 @@ export async function GET(request: Request) {
   try {
     const pending = await prisma.feedback.findMany({
       where: { status: "APPROVED" },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: "desc" },
       select: {
         id: true,
         message: true,

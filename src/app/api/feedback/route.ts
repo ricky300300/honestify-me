@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { trackEvent } from "@/lib/analytics";
 
 export async function POST(request: Request) {
   try {
@@ -45,6 +46,11 @@ export async function POST(request: Request) {
             : null,
         status: "APPROVED",
       },
+    });
+
+    await trackEvent({
+      eventName: "feedback_submitted",
+      username: user.username,
     });
 
     return NextResponse.json({ success: true });

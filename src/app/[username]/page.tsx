@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { trackEvent } from "@/lib/analytics";
 import FeedbackForm from "./FeedbackForm";
 
 type Props = { params: Promise<{ username: string }> };
@@ -61,6 +62,11 @@ export default async function FeedbackPage({ params }: Props) {
     data: { username: user.username },
   });
 
+  await trackEvent({
+    eventName: "feedback_page_view",
+    username,
+  });
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col justify-center px-4 py-8 sm:py-10">
@@ -87,3 +93,4 @@ export default async function FeedbackPage({ params }: Props) {
     </div>
   );
 }
+

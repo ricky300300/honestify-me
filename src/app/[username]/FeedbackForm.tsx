@@ -58,6 +58,17 @@ export default function FeedbackForm({ username }: Props) {
     }
   }
 
+  function handleCreatePageClick() {
+    fetch("/api/track-event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventName: "create_page_clicked" }),
+      keepalive: true,
+    }).catch(() => {
+      // analytics failures should never block UX
+    });
+  }
+
   if (status === "success") {
     return (
       <div className="mt-8 flex flex-col space-y-4 rounded-xl bg-green-500/15 p-6 text-center text-sm text-green-700 dark:text-green-400 sm:mt-10">
@@ -68,6 +79,7 @@ export default function FeedbackForm({ username }: Props) {
         </p>
         <Link
           href="/signup"
+          onClick={handleCreatePageClick}
           className="w-full rounded-xl bg-green-500 px-4 py-3 font-medium text-white transition-colors hover:bg-green-600 active:opacity-95 sm:w-auto sm:min-w-[200px]"
         >
           Create my feedback page

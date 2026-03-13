@@ -44,3 +44,11 @@ model PageView {
   username  String
   createdAt DateTime @default(now())
 }
+
+model Event {
+  id        String   @id @default(cuid())
+  eventName String
+  username  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+}

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { trackEvent } from "@/lib/analytics";
+import { isProbablyBot, trackEvent } from "@/lib/analytics";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "eventName is required" }, { status: 400 });
     }
 
-    await trackEvent({ eventName, username, metadata });
+    const userAgent = request.headers.get("user-agent") ?? undefined;
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      request.headers.get("x-real-ip") ??
+      undefined;
+
+    if (isProbablyBot(userAgent)) {
+      // Ignore obvious bots
+      return NextResponse.json({ ok: true });
+    }
+
+    await trackEvent({
+      eventName,
+      username,
+      metadata: {
+        ...(metadata ?? {}),
+        userAgent,
+        ip,
+      },
+    });
     return NextResponse.json({ ok: true });
   } catch (err) {
     if (process.env.NODE_ENV === "development") {

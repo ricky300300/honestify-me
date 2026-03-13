@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { trackEvent } from "@/lib/analytics";
+import { isProbablyBot, trackEvent } from "@/lib/analytics";
 
 export async function POST(request: Request) {
   try {
@@ -48,10 +48,22 @@ export async function POST(request: Request) {
       },
     });
 
-    await trackEvent({
-      eventName: "feedback_submitted",
-      username: user.username,
-    });
+    const userAgent = request.headers.get("user-agent") ?? undefined;
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      request.headers.get("x-real-ip") ??
+      undefined;
+
+    if (!isProbablyBot(userAgent)) {
+      await trackEvent({
+        eventName: "feedback_submitted",
+        username: user.username,
+        metadata: {
+          userAgent,
+          ip,
+        },
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

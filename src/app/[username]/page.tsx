@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { trackEvent } from "@/lib/analytics";
+import { isProbablyBot, trackEvent } from "@/lib/analytics";
 import FeedbackForm from "./FeedbackForm";
 
 type Props = { params: Promise<{ username: string }> };
@@ -62,10 +63,23 @@ export default async function FeedbackPage({ params }: Props) {
     data: { username: user.username },
   });
 
-  await trackEvent({
-    eventName: "feedback_page_view",
-    username,
-  });
+  const h = await headers();
+  const userAgent = h.get("user-agent") ?? undefined;
+  const ip =
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    h.get("x-real-ip") ??
+    undefined;
+
+  if (!isProbablyBot(userAgent)) {
+    await trackEvent({
+      eventName: "feedback_page_view",
+      username,
+      metadata: {
+        userAgent,
+        ip,
+      },
+    });
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
